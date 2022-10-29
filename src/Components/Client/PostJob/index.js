@@ -32,7 +32,6 @@ function PostJob() {
         </Grid>
         <Button onClick={() => setMobileStep((p) => !p)}>shift</Button>
       </Grid>
-
     </div>
   );
 }
