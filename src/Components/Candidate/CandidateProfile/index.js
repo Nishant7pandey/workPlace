@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getDoc, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../config/firebaseInitisize";
-import { TextField, Grid, Box, Button } from "@mui/material";
+import { getAuth, signOut } from "firebase/auth";
 import { Navigate, useNavigate } from "react-router-dom";
+import { TextField, Grid, Box, Button } from "@mui/material";
 
 function CandidateProfile() {
   const [candidateData, setCandidateData] = useState(null);
@@ -14,7 +15,6 @@ function CandidateProfile() {
       const docRef = doc(db, "usersData", userId);
       const docData = await getDoc(docRef);
       if (docData.exists()) {
-        console.log("Document data:", docData.data());
         setCandidateData({ ...docData.data() });
       } else {
         // doc.data() will be undefined in this case
@@ -53,6 +53,14 @@ function CandidateProfile() {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     // localStorage.removeItem("real key");
+    const auth = getAuth();
+signOut(auth).then(() => {
+  // Sign-out succes
+  alert('your profile logout successfully');
+}).catch((error) => {
+  // An error happened.
+  console.log('hello')
+});
 
     reRoute();
   };
@@ -95,7 +103,7 @@ function CandidateProfile() {
                 email<span style={{ color: "red" }}>*</span>
               </label>
               <TextField
-                disabled={!editState}
+                disabled={true}
                 required
                 type="email"
                 value={candidateData.email}
